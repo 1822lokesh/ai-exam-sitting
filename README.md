@@ -272,38 +272,9 @@ backend/
 - **Commits:** clear messages per phase or feature.
 - **PRs:** include tests and README updates for new endpoints.
 
----
 
-## License
 
-- **License:** MIT (or your preferred license). Add a `LICENSE` file to the repository if applicable.
 
----
 
-## Git usage quick reference
 
-- **Ignore files** (create `/.gitignore` at repo root):
 
-  ```
-  .venv/
-  __pycache__/
-  .env
-  instance/
-  *.pyc
-  node_modules/
-  dist/
-  .DS_Store
-  .vscode/
-  ```
-
-- **Initial commit and push**
-  ```powershell
-  git init
-  git add .
-  git commit -m "Phase 1–5: backend setup, models+migrations, JWT auth, admin routes"
-  git branch -M main
-  git remote add origin https://github.com/<your-username>/ai-exam-sitting.git
-  git push -u origin main
-  ```
-
-If you want, I can tailor this README with your exact repository URL and any custom fields in your models so the API examples match perfectly.
