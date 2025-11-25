@@ -42,7 +42,7 @@ A backend-first project to automate exam seating, invigilation, and leave workfl
 1. **Clone repository**
 
    ```bash
-   git clone https://github.com/<your-username>/ai-exam-sitting.git
+   git clone https://github.com/1822lokesh>/ai-exam-sitting.git
    cd ai-exam-sitting/backend
    ```
 
