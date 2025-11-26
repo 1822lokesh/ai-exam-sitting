@@ -1,14 +1,19 @@
 # Ai exam sitting arrangement system
 
-A backend-first project to automate exam seating, invigilation, and leave workflows with role-based access for Admin, Student, and Staff. Built with Flask, SQLAlchemy ORM, JWT auth, and MySQL. Frontend scaffolded with React + Vite + Material UI.
+This project is an AI-powered Exam Sitting Arrangement System designed to streamline exam management for universities and colleges. It automates seat allocations, invigilator assignments, leave management, result processing, and provides dashboards for admins, staff, and students
+
+Built with Flask, SQLAlchemy ORM, JWT auth, and MySQL. Frontend scaffolded with React + Vite + Material UI.
 
 ---
 
 ## Project overview
 
-- **Goal:** Automate exam seating allocation and related operations with a clean, scalable architecture.
+- **Goal:**
+  - Automate exam seating allocation using AI‑assisted logic (fairness, branch/year separation, room capacity).
+  - Provide dashboards for Admin, Staff, and Students.
+  - Streamline workflows: invigilation, leave requests, results, and notifications.
 - **Roles:** Admin, Student, Staff.
-- **Current milestone:** Phases 1–5 completed (backend setup, models, migrations, auth, admin APIs).
+- **Current milestone:** Phases 1–7 completed (backend setup, models, migrations, auth, admin APIs).
 - **Core capabilities (so far):**
   - **Auth:** Signup, login, JWT-protected profile using email identity.
   - **Admin:** Create/list exams, add rooms, list students.
@@ -28,6 +33,77 @@ A backend-first project to automate exam seating, invigilation, and leave workfl
   - **Routes:** auth, admin, student (planned), staff (planned).
 
 ---
+
+**Current Milestones**
+**Phase 1: Auth & Setup**
+
+- User signup/login with JWT tokens
+- Role-based access control (ADMIN, STAFF, STUDENT)
+  **Phase 2: Exams & Rooms**
+- Admin creates exams and rooms
+- Admin lists exams and students
+  **Phase 3: Seats & Allocations**
+- Seat model linked to rooms
+- Admin allocates students to seats
+- Students view their seat allocations
+  **Phase 4: Invigilations**
+- Admin assigns staff to invigilate exams
+- Staff view their invigilations
+  **Phase 5: Leave Management**
+- Staff apply for leave
+- Admin approves/rejects leave requests
+- Staff view leave status
+  **Phase 6: Results & Performance**
+- Admin uploads exam results
+- Students view results and performance summaries (average marks, grades)
+  **Phase 7: Reports & Analytics**
+- Admin dashboard: students, staff, exams, rooms, seats, allocations, leaves, results summary
+- Staff dashboard: personal invigilations + leave summary
+- Students already have performance view
+  **🔜 Phase 8–9 upcoming: AI seat allocation + mailer notifications + frontend dashboard**
+
+## API Endpoints
+
+**Auth**
+
+- POST /api/auth/signup → Register user
+- POST /api/auth/login → Login, get JWT
+- GET /api/auth/me → Profile
+
+**Admin**
+
+- POST /api/admin/exam → Create exam
+- GET /api/admin/exams → List exams
+- POST /api/admin/room → Add room
+- GET /api/admin/students → List students
+- POST /api/admin/allocations → Allocate students to seats (AI logic planned)
+- GET /api/admin/allocations → View allocations
+- POST /api/admin/invigilation → Assign invigilators
+- GET /api/admin/invigilations → List invigilations
+- PATCH /api/admin/leave/<id>/status → Approve/reject leave
+- GET /api/admin/leaves → View leave requests
+- POST /api/admin/result → Upload results
+- GET /api/admin/results/<exam_id> → View results for exam
+- GET /api/admin/reports → Global dashboard
+
+**Staff**
+
+- GET /api/staff/invigilations → View invigilations
+- POST /api/staff/leave → Apply for leave
+- GET /api/staff/leaves → View leave requests
+- GET /api/staff/reports → Personal dashboard
+
+**Student**
+
+- GET /api/student/allocations → View seat allocation
+- GET /api/student/results → View exam results
+- GET /api/student/performance → View performance summary
+
+**AI Services (Planned Integration)**
+
+- POST /api/admin/allocations/ai → Trigger AI‑assisted seat allocation (calls seating_ai.py)
+- POST /api/admin/notify/allocations → Send seat allocation emails (calls mailer.py)
+- POST /api/admin/notify/results → Send result emails (calls mailer.py)
 
 ## Setup and running locally
 
@@ -113,7 +189,7 @@ A backend-first project to automate exam seating, invigilation, and leave workfl
 
 ---
 
-## Testing walkthrough (phases 4–5)
+## Testing walkthrough
 
 ### Authentication
 
@@ -207,33 +283,41 @@ A backend-first project to automate exam seating, invigilation, and leave workfl
 
 ## Project structure (backend)
 
-```
+---
+
 backend/
 ├─ app/
-│  ├─ __init__.py          # app factory, extensions init, model imports, blueprint registration
-│  ├─ config.py            # environment-based configuration
-│  ├─ extensions.py        # db, migrate, jwt, mail, cors
-│  ├─ models/
-│  │  ├─ user.py
-│  │  ├─ exam.py
-│  │  ├─ room.py
-│  │  ├─ seat.py
-│  │  ├─ allocation.py
-│  │  ├─ invigilation.py
-│  │  └─ leave.py
-│  ├─ routes/
-│  │  ├─ auth.py
-│  │  ├─ admin.py
-│  │  ├─ student.py        # planned
-│  │  └─ staff.py          # planned
-│  └─ ...
-├─ migrations/             # alembic migration scripts
-├─ wsgi.py                 # entrypoint: app = create_app()
+│ ├─ **init**.py # app factory, extensions init, model imports, blueprint registration
+│ ├─ config.py # environment-based configuration
+│ ├─ extensions.py # db, migrate, jwt, mail, cors
+│ ├─ models/
+│ │ ├─ user.py
+│ │ ├─ exam.py
+│ │ ├─ room.py
+│ │ ├─ seat.py
+│ │ ├─ allocation.py
+│ │ ├─ invigilation.py
+│ │ ├─ leave.py
+│ │ └─ result.py
+│ ├─ routes/
+│ │ ├─ auth.py
+│ │ ├─ admin_core.py
+│ │ ├─ admin_results.py
+│ │ ├─ admin_reports.py
+│ │ ├─ staff.py
+│ │ ├─ staff_reports.py
+│ │ ├─ student.py
+│ │ └─ student_results.py
+│ ├─ services/
+│ │ ├─ allocation.py # seat allocation orchestration
+│ │ ├─ seating_ai.py # AI algorithm for seating
+│ │ └─ mailer.py # email notifications
+│ └─ utils/
+│ └─ authz.py # role-based decorator
+├─ migrations/ # alembic migration scripts
+├─ wsgi.py # entrypoint: app = create_app()
 ├─ requirements.txt
 └─ .env
-```
-
----
 
 ## Development notes and troubleshooting
 
@@ -258,11 +342,10 @@ backend/
 
 ## Roadmap
 
-- **Phase 6:** Student routes (exam schedule, seat allocation view, leave requests).
-- **Phase 7:** Staff routes (invigilation assignments, approve/deny leave).
-- **Phase 8:** React dashboard UI (Admin/Student/Staff), role-based navigation, API integration.
-- **Phase 9:** Seat allocation logic (AI-assisted), constraints (branch, year, room capacity).
-- **Phase 10:** Deployment with Docker, environment configs, CI/CD, production hardening.
+- **✅ Phase 1–7**: Backend system ready (auth, exams, rooms, seats, allocations, invigilations, leaves, results, reports)
+- **🔜 Phase 8**: React dashboard UI (Admin/Student/Staff), role‑based navigation, API integration
+- **🔜 Phase 9**: AI seat allocation logic (allocation.py + seating_ai.py) + mailer notifications (mailer.py)
+- **🔜 Phase 10**: Deployment with Docker, environment configs, CI/CD, production hardening
 
 ---
 
@@ -271,10 +354,3 @@ backend/
 - **Branching:** feature branches per module (e.g., `feature/student-routes`).
 - **Commits:** clear messages per phase or feature.
 - **PRs:** include tests and README updates for new endpoints.
-
-
-
-
-
-
-
