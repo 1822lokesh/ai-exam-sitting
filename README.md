@@ -296,10 +296,6 @@ Built with Flask, SQLAlchemy ORM, JWT auth, and MySQL. Frontend scaffolded with 
 
 ## Project structure (backend)
 
----
-
-## Project structure (backend)
-
 ```
 backend/
 ├─ app/
