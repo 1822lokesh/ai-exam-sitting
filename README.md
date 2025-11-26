@@ -33,7 +33,7 @@ Built with Flask, SQLAlchemy ORM, JWT auth, and MySQL. Frontend scaffolded with 
 
 ---
 
-##Current Milestones
+## Current Milestones
 
 **Phase 1: Auth & Setup**
 - User signup/login with JWT tokens
@@ -291,7 +291,6 @@ Built with Flask, SQLAlchemy ORM, JWT auth, and MySQL. Frontend scaffolded with 
 
 ---
 
-backend/ ├─ app/ │ ├─ init.py # app factory, extensions init, model imports, blueprint registration │ ├─ config.py # environment-based configuration │ ├─ extensions.py # db, migrate, jwt, mail, cors │ ├─ models/ │ │ ├─ user.py │ │ ├─ exam.py │ │ ├─ room.py │ │ ├─ seat.py │ │ ├─ allocation.py │ │ ├─ invigilation.py │ │ ├─ leave.py │ │ └─ result.py │ ├─ routes/ │ │ ├─ auth.py │ │ ├─ admin_core.py # exams, rooms, students │ │ ├─ admin_allocations.py # seat allocations │ │ ├─ admin_invigilation.py# invigilator assignments │ │ ├─ admin_leaves.py # leave approvals │ │ ├─ admin_results.py # results upload/list │ │ ├─ admin_reports.py # global dashboard │ │ ├─ staff.py # staff invigilations + leave apply/view │ │ ├─ staff_reports.py # staff personal dashboard │ │ ├─ student.py # student allocations │ │ └─ student_results.py # student results + performance │ ├─ services/ │ │ ├─ allocation.py # orchestrates seat allocation │ │ ├─ seating_ai.py # AI algorithm for seating logic │ │ └─ mailer.py # email notifications (allocations/results) │ └─ utils/ │ └─ authz.py # role-based decorator ├─ migrations/ # alembic migration scripts ├─ wsgi.py # entrypoint: app = create_app() ├─ requirements.txt └─ .env
 
 ---
 
